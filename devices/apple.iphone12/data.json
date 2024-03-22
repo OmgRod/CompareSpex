@@ -1,0 +1,17 @@
+{
+    "id": "apple.iphone12",
+    "name": "iPhone 12",
+    "manufacturer": "Apple",
+    "price": "£799",
+    "specs": {
+        "cpu": "A14 Bionic",
+        "gpu": "Apple GPU",
+        "ram": ["4 GB"],
+        "storage": ["64 GB", "128 GB", "256 GB"],
+        "display": "2532 x 1170",
+        "battery": "2,815 mAh",
+        "os": "iOS",
+        "connectivity": ["Wi-Fi", "Bluetooth", "USB", "NFC", "Cellular"],
+        "camera": "12 MP"
+    }
+}
