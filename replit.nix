@@ -1,5 +1,9 @@
 { pkgs }: {
     deps = [
-      pkgs.cowsay
+      pkgs.nginx
+      pkgs.mysql
+      pkgs.mysql-shell
+      pkgs.mysql-workbench
+      pkgs.mysql80
     ];
 }
