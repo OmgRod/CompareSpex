@@ -1,1 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Quicksand&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* Prevent rubber band scrolling on iOS */
+  overscroll-behavior-x: none;
+  /* Disable momentum-based scrolling on Safari */
+  -webkit-overflow-scrolling: touch;
+  touch-action: none;
+  -webkit-touch-action: none;
+}

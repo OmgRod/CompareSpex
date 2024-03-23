@@ -3,7 +3,7 @@
     "short_name": "CompareSpex",
     "icons": [
       {
-        "src": "/images/mobile_logo.png",
+        "src": "/images/favicon.png",
         "sizes": "512x512",
         "type": "image/png"
       }
