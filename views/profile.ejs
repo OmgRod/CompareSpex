@@ -7,8 +7,16 @@
 <body>
     <%- include('partials/navbar') %> <!-- Ensure your server-side template supports this -->
     <main class="container-fluid p-4">
-      <h1>Profile</h1>
-      <p>dont ask me what to put here</p>
+        <div class="profiletop">
+            <!-- Check if base64Image is defined before using it -->
+            <% if (base64Image) { %>
+                <!-- Use data URI scheme to display base64 image -->
+                <img src="data:image/png;base64, <%= base64Image %>" />
+            <% } else { %>
+                <!-- Display a placeholder image or alternative content -->
+              <img src="/images/defaultPFP.png" />
+            <% } %>
+        </div>
     </main>
 </body>
 </html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>CompareSpex - Home</title>
+    <style>
+        /* Additional CSS for centering and font size */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {
+            font-size: 3em; /* Adjust font size as needed */
+        }
+    </style>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Ensure your server-side template supports this -->
+    <main class="container-fluid p-4">
+        <h1>Error <%- error %></h1>
+    </main>
+</body>
+</html>
