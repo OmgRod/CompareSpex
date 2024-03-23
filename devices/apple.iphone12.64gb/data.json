@@ -6,8 +6,8 @@
     "specs": {
         "cpu": "A14 Bionic",
         "gpu": "Apple GPU",
-        "ram": ["4 GB"],
-        "storage": ["64 GB", "128 GB", "256 GB"],
+        "ram": "4 GB",
+        "storage": "64 GB",
         "display": "2532 x 1170",
         "battery": "2,815 mAh",
         "os": "iOS",
