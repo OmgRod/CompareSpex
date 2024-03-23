@@ -88,6 +88,10 @@ app.get('/compare', (req, res) => {
     res.render('compare');
 });
 
+app.get('/settings', (req, res) => {
+    res.render('settings');
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

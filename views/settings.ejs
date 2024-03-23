@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+    <title>CompareSpex - Search</title>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Ensure your server-side template supports this -->
+    <main class="container-fluid p-4">
+      <h1>Settings</h1>
+      <section class="p-4">
+        <h2>Theme</h2>
+        <form style="font-weight: normal;">
+          <label>Color Theme</label>
+          <select>
+            <option>Automatic</option>
+            <optgroup label="Manual Options">
+              <option>Light Mode</option>
+              <option>Dark Mode</option>
+            </optgroup>
+          </select>
+        </form>
+      </section>
+    </main>
+</body>
+</html>

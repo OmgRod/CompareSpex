@@ -1,9 +1,12 @@
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+    @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+    @import url('https://fonts.googleapis.com/css2?family=Quicksand&display=swap');
+
     body {
         margin: 0;
         font-family: 'Roboto', sans-serif;
     }
+
     .navbar {
         background-color: #fff;
         box-shadow: 0 2px 3px rgba(0,0,0,0.1);
@@ -13,47 +16,112 @@
         padding: 0 20px;
         height: 56px;
     }
+
     .navbar a {
         text-decoration: none;
         color: rgba(0,0,0,0.87);
         margin-left: 16px;
     }
+
     .navbar .logo {
         display: flex;
         align-items: center;
+        justify-content: left; /* Center the logo */
+        flex-grow: 1; /* Allow the logo to take up available space */
     }
+
     .navbar .logo img {
         height: 40px;
     }
+
     .navbar .nav-items {
         display: flex;
         align-items: center;
     }
+
     .navbar .nav-item {
         margin: 0 10px;
     }
+
     .navbar .search-bar {
         border: 1px solid #ddd;
         padding: 5px 10px;
         border-radius: 20px;
         outline: none;
     }
+
     .logo > a {
         font-size: larger;
         font-family: "Quicksand";
-      font-weight: 700;
+        font-weight: 700;
+    }
+
+  .bottom-nav {
+    display: none;
+    box-shadow: 0 -2px 3px rgba(0,0,0,0.1);
+  }
+
+  .top-nav {
+    position: sticky;
+    top: 0;
+    width: 100vw;
+  }
+
+    /* Media query for portrait orientation */
+    @media screen and (orientation: portrait) {
+        .top-nav > .nav-items {
+            display: none; /* Hide top navbar in portrait mode */
+        }
+
+        .bottom-nav {
+            display: flex;
+            justify-content: space-around;
+            background-color: #fff;
+            color: #fff;
+            padding: 10px 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .bottom-nav .nav-item {
+            flex: 1;
+            text-align: center;
+        }
+
+      .navbar .logo {
+          display: flex;
+          align-items: center;
+          justify-content: center; /* Center the logo */
+          flex-grow: 1; /* Allow the logo to take up available space */
+      }
+
+      main {
+        margin-bottom: 35px;
+      }
     }
 </style>
 
-<nav class="navbar">
+<nav class="navbar top-nav">
     <div class="logo">
         <a href="/">Compare<font style="color: #0094FF">Spex</font></a>
     </div>
     <div class="nav-items">
-        <!-- <input type="text" class="search-bar" placeholder="Search..."> -->
-      <a href="/search" class="nav-item"><span class="material-symbols-outlined">search</span></a>
-      <a href="/compare" class="nav-item"><span class="material-symbols-outlined">assignment</span></a>
-      <a href="/request" class="nav-item"><span class="material-symbols-outlined">add_comment</span></a>
-      <a href="/profile/1" class="nav-item"><span class="material-symbols-outlined">account_circle</span></a>
+        <a href="/search" class="nav-item"><i class="material-icons">search</i></a>
+        <a href="/pricing" class="nav-item"><i class="material-icons">payments</i></a>
+        <a href="/compare" class="nav-item"><i class="material-icons">assignment</i></a>
+        <a href="/request" class="nav-item"><i class="material-icons">add_comment</i></a>
+        <a href="/profile/1" class="nav-item"><i class="material-icons">account_circle</i></a>
+        <a href="/settings" class="nav-item"><i class="material-icons">settings</i></a>
     </div>
+</nav>
+
+<nav class="navbar bottom-nav">
+    <a href="/search" class="nav-item"><i class="material-icons">search</i></a>
+    <a href="/pricing" class="nav-item"><i class="material-icons">payments</i></a>
+    <a href="/compare" class="nav-item"><i class="material-icons">assignment</i></a>
+    <a href="/request" class="nav-item"><i class="material-icons">add_comment</i></a>
+    <a href="/profile/1" class="nav-item"><i class="material-icons">account_circle</i></a>
+    <a href="/settings" class="nav-item"><i class="material-icons">settings</i></a>
 </nav>
