@@ -17,10 +17,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Create an instance of FileDatabase with the desired base path
-const db = new FileDatabase('./database');
+const db = new FileDatabase('database', './');
 
 // Create a table with columns
-db.createTable('users', ['id', 'name', 'password', 'experience']);
+// Check if the table already exists before creating it
+if (!db.tableExists('users')) {
+    // Table 'users' does not exist, so create it
+    db.createTable('users', ['id', 'name', 'password', 'experience']);
+} else {
+    console.log("Table 'users' already exists.");
+}
 
 
 

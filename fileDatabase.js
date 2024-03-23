@@ -1,44 +1,84 @@
-// fileDatabase.js
-
 const fs = require('fs');
 const path = require('path');
 const base64 = require('base-64');
 
 class FileDatabase {
-    constructor(basePath) {
+    constructor(databaseName, basePath) {
+        this.databaseName = databaseName;
         this.basePath = basePath;
-        fs.mkdirSync(this.basePath, { recursive: true });
+        if (!fs.existsSync(this.basePath)) {
+            fs.mkdirSync(this.basePath, { recursive: true });
+        }
     }
 
-    createTable(tableName, columns) {
-        const tablePath = path.join(this.basePath, tableName);
-        fs.mkdirSync(tablePath, { recursive: true });
+  createTable(tableName, columns) {
+      const tablePath = this.getTablePath(tableName);
+      const schemaPath = path.join(tablePath, 'schema.json');
+      if (fs.existsSync(tablePath)) {
+          throw new Error(`Table '${tableName}' already exists in database '${this.databaseName}'.`);
+      } else {
+          fs.mkdirSync(tablePath, { recursive: true });
+          fs.writeFileSync(schemaPath, JSON.stringify(columns));
+      }
+  }
 
-        // Store table schema inside the table directory
-        fs.writeFileSync(path.join(tablePath, 'schema.json'), JSON.stringify(columns));
+    addColumn(tableName, columnName) {
+        const tablePath = this.getTablePath(tableName);
+        const schemaPath = path.join(tablePath, 'schema.json');
+        if (fs.existsSync(tablePath)) {
+            const schema = this.getTableSchema(tableName);
+            if (!schema.includes(columnName)) {
+                schema.push(columnName);
+                fs.writeFileSync(schemaPath, JSON.stringify(schema));
+                // Modify existing rows to add the new column (add a comma)
+                this.modifyRowsInTable(tableName, rowData => {
+                    rowData += ',';
+                    return rowData;
+                });
+            }
+        } else {
+            throw new Error(`Table '${tableName}' does not exist in database '${this.databaseName}'.`);
+        }
+    }
+
+    removeColumn(tableName, columnName) {
+        const tablePath = this.getTablePath(tableName);
+        const schemaPath = path.join(tablePath, 'schema.json');
+        if (fs.existsSync(tablePath)) {
+            const schema = this.getTableSchema(tableName);
+            const columnIndex = schema.indexOf(columnName);
+            if (columnIndex !== -1) {
+                schema.splice(columnIndex, 1);
+                fs.writeFileSync(schemaPath, JSON.stringify(schema));
+                // Modify existing rows to remove data for the removed column
+                this.modifyRowsInTable(tableName, rowData => {
+                    const rowValues = rowData.split(',');
+                    rowValues.splice(columnIndex, 1);
+                    return rowValues.join(',');
+                });
+            }
+        } else {
+            throw new Error(`Table '${tableName}' does not exist in database '${this.databaseName}'.`);
+        }
     }
 
     insertRow(tableName, rowData) {
-        const tablePath = path.join(this.basePath, tableName);
-
-        const rowNumber = fs.readdirSync(tablePath).length + 1;
+        const tablePath = this.getTablePath(tableName);
+        const rowNumber = this.getNextRowNumber(tableName);
         const rowFolder = path.join(tablePath, `${rowNumber}.row`);
         fs.mkdirSync(rowFolder);
-
         // Ensure rowData is a string, if it's an array, convert it to a string
         if (Array.isArray(rowData)) {
             rowData = rowData.join(','); // Convert array elements to a string
         }
-
         // Encode and store row data
         const encodedData = base64.encode(rowData);
         fs.writeFileSync(path.join(rowFolder, 'row_content'), encodedData);
     }
 
     retrieveRows(tableName) {
-        const tablePath = path.join(this.basePath, tableName);
+        const tablePath = this.getTablePath(tableName);
         const rows = [];
-
         fs.readdirSync(tablePath).forEach((folder) => {
             const rowFolder = path.join(tablePath, folder);
             if (fs.statSync(rowFolder).isDirectory()) {
@@ -47,40 +87,39 @@ class FileDatabase {
                 rows.push(decodedData);
             }
         });
-
         return rows;
     }
 
     deleteTable(tableName) {
-        const tablePath = path.join(this.basePath, tableName);
+        const tablePath = this.getTablePath(tableName);
         if (fs.existsSync(tablePath)) {
             fs.rmdirSync(tablePath, { recursive: true });
         } else {
-            throw new Error(`Table '${tableName}' does not exist.`);
+            throw new Error(`Table '${tableName}' does not exist in database '${this.databaseName}'.`);
         }
     }
 
     deleteRow(tableName, rowNumber) {
-        const rowFolder = path.join(this.basePath, tableName, `${rowNumber}.row`);
+        const rowFolder = path.join(this.getTablePath(tableName), `${rowNumber}.row`);
         if (fs.existsSync(rowFolder)) {
             fs.rmdirSync(rowFolder, { recursive: true });
         } else {
-            throw new Error(`Row '${rowNumber}' in table '${tableName}' does not exist.`);
+            throw new Error(`Row '${rowNumber}' in table '${tableName}' does not exist in database '${this.databaseName}'.`);
         }
     }
 
     deleteDatabase() {
-        if (fs.existsSync(this.basePath)) {
-            fs.rmdirSync(this.basePath, { recursive: true });
+        const databasePath = path.join(this.basePath, this.databaseName);
+        if (fs.existsSync(databasePath)) {
+            fs.rmdirSync(databasePath, { recursive: true });
         } else {
-            throw new Error('Database does not exist.');
+            throw new Error(`Database '${this.databaseName}' does not exist.`);
         }
     }
 
     selectRows(tableName, conditionFunc) {
-        const tablePath = path.join(this.basePath, tableName);
+        const tablePath = this.getTablePath(tableName);
         const rows = [];
-
         fs.readdirSync(tablePath).forEach((folder) => {
             const rowFolder = path.join(tablePath, folder);
             if (fs.statSync(rowFolder).isDirectory()) {
@@ -91,40 +130,58 @@ class FileDatabase {
                 }
             }
         });
-      
-
         return rows;
     }
 
-  modifyRow(tableName, rowNumber, newData) {
-      const tablePath = path.join(this.basePath, tableName);
-      const rowFolder = path.join(tablePath, `${rowNumber}.row`);
+    modifyRow(tableName, rowNumber, newData) {
+        const rowFolder = path.join(this.getTablePath(tableName), `${rowNumber}.row`);
+        if (fs.existsSync(rowFolder)) {
+            const rowContentPath = path.join(rowFolder, 'row_content');
+            const encodedData = fs.readFileSync(rowContentPath, 'utf8');
+            const decodedData = base64.decode(encodedData);
+            let modifiedData;
+            if (typeof newData === 'function') {
+                modifiedData = newData(decodedData);
+            } else {
+                modifiedData = newData;
+            }
+            const encodedModifiedData = base64.encode(modifiedData);
+            fs.writeFileSync(rowContentPath, encodedModifiedData);
+            return modifiedData;
+        } else {
+            throw new Error(`Row '${rowNumber}' in table '${tableName}' does not exist in database '${this.databaseName}'.`);
+        }
+    }
 
-      // Check if the row exists
-      if (!fs.existsSync(rowFolder)) {
-          throw new Error(`Row '${rowNumber}' in table '${tableName}' does not exist.`);
-      }
+    getTablePath(tableName) {
+        return path.join(this.basePath, this.databaseName, tableName);
+    }
 
-      // Retrieve existing data
-      const rowContentPath = path.join(rowFolder, 'row_content');
-      const encodedData = fs.readFileSync(rowContentPath, 'utf8');
-      const decodedData = base64.decode(encodedData);
+    getTableSchema(tableName) {
+        const schemaPath = path.join(this.getTablePath(tableName), 'schema.json');
+        return JSON.parse(fs.readFileSync(schemaPath));
+    }
 
-      // Modify the data
-      let modifiedData;
-      if (typeof newData === 'function') {
-          // If newData is a function, apply it to the existing data
-          modifiedData = newData(decodedData);
-      } else {
-          // If newData is not a function, replace the existing data
-          modifiedData = newData;
-      }
+    getNextRowNumber(tableName) {
+        const tablePath = this.getTablePath(tableName);
+        return fs.readdirSync(tablePath).length + 1;
+    }
 
-      // Encode and store the modified data
-      const encodedModifiedData = base64.encode(modifiedData);
-      fs.writeFileSync(rowContentPath, encodedModifiedData);
-
-      return modifiedData;
+    modifyRowsInTable(tableName, modifyFunc) {
+        const tablePath = this.getTablePath(tableName);
+        fs.readdirSync(tablePath).forEach((folder) => {
+            const rowFolder = path.join(tablePath, folder);
+            if (fs.statSync(rowFolder).isDirectory()) {
+                const rowContentPath = path.join(rowFolder, 'row_content');
+                let rowData = fs.readFileSync(rowContentPath, 'utf8');
+                const modifiedData = modifyFunc(rowData);
+                fs.writeFileSync(rowContentPath, modifiedData);
+            }
+        });
+    }
+  tableExists(tableName) {
+      const tablePath = this.getTablePath(tableName);
+      return fs.existsSync(tablePath);
   }
 }
 
