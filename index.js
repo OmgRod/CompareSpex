@@ -5,6 +5,7 @@ const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
 const readFileAsync = promisify(fs.readFile);
+const rateLimit = require("express-rate-limit");
 require('dotenv').config();
 
 const app = express();
@@ -14,6 +15,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.static(path.join(__dirname, 'public')));
+
+// Define rate limiting options
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+  message: "Too many requests from this IP, please try again later"
+});
 
 
 
@@ -44,8 +52,8 @@ app.use((req, res, next) => {
     next();
 });
 
-// Middleware to handle profile image requests
-app.use('/profile/:userId', async (req, res, next) => {
+// Apply the rate limiter middleware to the specified route
+app.use('/profile/:userId', limiter, async (req, res, next) => {
     try {
         // Assuming user profile images are stored in the 'static/pfp' directory
         const imagePath = path.join(__dirname, 'static', 'pfp', `${req.params.userId}.png`);
@@ -66,6 +74,7 @@ app.use('/profile/:userId', async (req, res, next) => {
         next(error);
     }
 });
+
 
 app.get('/', (req, res) => {
     res.render('index');
