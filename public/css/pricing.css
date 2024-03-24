@@ -1,0 +1,60 @@
+@media screen and (orientation: landscape) {
+  .box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 1em;
+    text-align: center;
+  }
+  
+  .pricing-box {
+    width: calc(100% - 4em); /* make each box a row minus the padding */
+    margin: 0.75vw;
+    flex: 1 1 30%; /* make each box a row */
+  }
+
+}
+
+.box-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 1em auto;
+  text-align: center;
+}
+
+.pricing-box.free {
+  width: calc(100vw - 4em); /* subtracting padding/border widths */
+  border: 2px solid #f00;
+  border-radius: .5vw;
+  padding: .5vw;
+  box-shadow: 0 0 10px #f00;
+}
+
+.pricing-box.pro {
+  width: calc(100vw - 4em); /* subtracting padding/border widths */
+  border: 2px solid #0f0;
+  border-radius: .5vw;
+  padding: .5vw;
+  box-shadow: 0 0 10px #0f0;
+}
+
+.pricing-box.premium {
+  width: calc(100vw - 4em); /* subtracting padding/border widths */
+  border: 2px solid #62f;
+  border-radius: .5vw;
+  padding: .5vw;
+  box-shadow: 0 0 10px #62f;
+}
+
+.pricing-box > h2 {
+  text-align: center;
+}
+
+.pricing-box {
+  margin-bottom: 1em;
+}
+
+.pricing-box > ul {
+  text-align: left;
+}

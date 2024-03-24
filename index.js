@@ -101,6 +101,10 @@ app.get('/settings', (req, res) => {
     res.render('settings');
 });
 
+app.get('/pricing', (req, res) => {
+    res.render('pricing');
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

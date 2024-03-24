@@ -10,3 +10,8 @@ body {
   touch-action: none;
   -webkit-touch-action: none;
 }
+
+main {
+    overflow-x: auto;
+    z-index: -1;
+}

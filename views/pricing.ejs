@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include('partials/head') %>
+      <link rel="stylesheet" href="/css/pricing.css"/>
+    <title>CompareSpex - Profile</title>
+</head>
+<body>
+    <%- include('partials/navbar') %> <!-- Ensure your server-side template supports this -->
+    <main class="container-fluid p-4">
+        <h1 style="text-align: center; margin: 0.5em;">Pricing</h1>
+
+<section class="box-container">
+  <div class="pricing-box free">
+    <h2>Free</h2>
+    <ul>
+      <li><strong>Max comparable devices:</strong> 2</li>
+      <li><strong>Rate limit:</strong> 100 requests per page per 15 minutes</li>
+      <li><strong>Max comparable devices:</strong> 2</li>
+    </ul>
+  </div>
+  <div class="pricing-box pro">
+    <h2>Pro</h2>
+  </div>
+  <div class="pricing-box premium">
+    <h2>Premium</h2>
+  </div>
+</section>
+    </main>
+</body>
+</html>
