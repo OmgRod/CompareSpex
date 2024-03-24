@@ -130,5 +130,5 @@ dist
 .pnp.*
 
 /devices/*
-!/devices/apple.iphone12.64gb/
-!/devices/apple.iphone12.64gb/*
+!/devices/apple.iphone12
+!/devices/apple.iphone12/*
