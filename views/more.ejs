@@ -32,6 +32,13 @@
         section > a div {
             font-size: 14px; /* Adjust text size as needed */
         }
+      h2 {
+        margin: 0.75em;
+      }
+
+      .grayscale {
+        filter: invert(50%);
+      }
     </style>
 </head>
 <body>
@@ -45,7 +52,7 @@
               <div>Request Device</div>
           </a>
           <a href="/feedback">
-              <img src="/images/feedback.svg"/>
+              <img src="/images/feedback.svg" class="grayscale"/>
               <div>Feedback and Review</div>
           </a>
         </section>
@@ -56,22 +63,22 @@
             <div>Theme Settings</div>
         </a>
         <a href="/settings/account">
-            <img src="/images/acc-settings.svg"/>
+            <img src="/images/acc-settings.svg" class="grayscale"/>
             <div>Account Settings</div>
         </a>
         <a href="/settings/admin">
-            <img src="/images/admin.svg"/>
+            <img src="/images/admin.svg" class="grayscale"/>
             <div>Admin Panel Settings</div>
         </a>
       </section>
         <h2>Legal</h2>
       <section>
         <a href="/legal/terms">
-            <img src="/images/terms.svg"/>
+            <img src="/images/terms.svg" class="grayscale"/>
             <div>Terms of Service</div>
         </a>
         <a href="/legal/privacy">
-            <img src="/images/legal.svg"/>
+            <img src="/images/legal.svg" class="grayscale"/>
             <div>Privacy Policy</div>
         </a>
         <a href="/legal/cookies">
@@ -79,8 +86,12 @@
             <div>Cookie Policy</div>
         </a>
         <a href="/legal/dmca">
-            <img src="/images/copyright.svg"/>
+            <img src="/images/copyright.svg" class="grayscale"/>
             <div>DMCA</div>
+        </a>
+        <a href="/legal/disclaimer">
+            <img src="/images/disclaimer.svg"/>
+            <div>Disclaimer</div>
         </a>
       </section>
     </main>

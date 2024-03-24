@@ -71,6 +71,10 @@ app.get('/legal/cookies', (req, res) => {
     res.render('cookiepolicy');
 });
 
+app.get('/legal/disclaimer', (req, res) => {
+    res.render('disclaimer');
+});
+
 app.get('/more', (req, res) => {
     res.render('more');
 });
