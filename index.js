@@ -59,15 +59,15 @@ app.get('/compare', (req, res) => {
     res.render('compare');
 });
 
-app.get('/settings', (req, res) => {
-    res.render('settings');
+app.get('/settings/theme', (req, res) => {
+    res.render('theme-settings');
 });
 
 app.get('/pricing', (req, res) => {
     res.render('pricing');
 });
 
-app.get('/cookie-policy', (req, res) => {
+app.get('/legal/cookies', (req, res) => {
     res.render('cookiepolicy');
 });
 

@@ -3,27 +3,86 @@
 <head>
     <%- include('partials/head') %>
     <title>CompareSpex - Search</title>
-      <style>
+    <style>
         section {
-          display: flex;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(10em, 1fr));
+            gap: 0.5em; /* Adjust the gap as needed */
+            justify-items: center;
         }
         section > a {
-          
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: black;
+            border: 2px solid #777;
+            border-radius: 10px; /* Making the links square by adjusting the border-radius */
+            padding: 0.5em; /* Adjust padding as needed */
+            box-shadow: 0 0 10px #777;
+            text-align: center;
+            text-decoration: none; /* Remove underline from links */
+            max-width: 100%; /* Ensure links don't exceed parent width */
         }
-      </style>
+        section > a img {
+            width: 10em; /* Adjust the size of the SVG icons as needed */
+            height: 10em;
+            margin-bottom: 10px; /* Add some space between the icon and text */
+        }
+        section > a div {
+            font-size: 14px; /* Adjust text size as needed */
+        }
+    </style>
 </head>
 <body>
     <%- include('partials/navbar') %> <!-- Ensure your server-side template supports this -->
     <main class="container-fluid p-4">
-      <h1 style="text-align: center;">More</h1>
-      <h2>Feedback</h2>
+        <h1 style="text-align: center;">More</h1>
+        <h2>Feedback</h2>
+        <section>
+          <a href="/request">
+              <img src="/images/request.svg"/>
+              <div>Request Device</div>
+          </a>
+          <a href="/feedback">
+              <img src="/images/feedback.svg"/>
+              <div>Feedback and Review</div>
+          </a>
+        </section>
+        <h2>Settings</h2>
       <section>
-        <a href="/request">
-          
+        <a href="/settings/theme">
+            <img src="/images/theme.svg"/>
+            <div>Theme Settings</div>
+        </a>
+        <a href="/settings/account">
+            <img src="/images/acc-settings.svg"/>
+            <div>Account Settings</div>
+        </a>
+        <a href="/settings/admin">
+            <img src="/images/admin.svg"/>
+            <div>Admin Panel Settings</div>
         </a>
       </section>
-      <h2>Settings</h2>
-      <h2>Legal</h2>
+        <h2>Legal</h2>
+      <section>
+        <a href="/legal/terms">
+            <img src="/images/terms.svg"/>
+            <div>Terms of Service</div>
+        </a>
+        <a href="/legal/privacy">
+            <img src="/images/legal.svg"/>
+            <div>Privacy Policy</div>
+        </a>
+        <a href="/legal/cookies">
+            <img src="/images/cookies.svg"/>
+            <div>Cookie Policy</div>
+        </a>
+        <a href="/legal/dmca">
+            <img src="/images/copyright.svg"/>
+            <div>DMCA</div>
+        </a>
+      </section>
     </main>
 </body>
 </html>
