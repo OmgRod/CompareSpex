@@ -71,6 +71,10 @@ app.get('/cookie-policy', (req, res) => {
     res.render('cookiepolicy');
 });
 
+app.get('/more', (req, res) => {
+    res.render('more');
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
