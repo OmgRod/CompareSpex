@@ -46,6 +46,10 @@ app.get('/request', (req, res) => {
     res.render('request-device');
 });
 
+app.get('/feedback', (req, res) => {
+    res.render('feedback');
+});
+
 app.get('/profile/:userId', (req, res) => {
     // Render the profile template with the provided userId
     res.render('profile', { userId: req.params.userId, base64Image: res.locals.profileImageBase64 });
